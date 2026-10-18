@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Datos con Criterio — resuelve cualquier problema de datos con IA</title>
+<meta name="description" content="Datos con Criterio — curso corto para quien trabaja con datos: fundamentos, el workflow calibrado para datos, y un problema real de millones de registros resuelto frente a ti con el código."/>
+<link rel="canonical" href="https://soyomarvaldezg.github.io/datos-con-criterio/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://soyomarvaldezg.github.io/datos-con-criterio/"/>
+<meta property="og:title" content="Datos con Criterio — resuelve cualquier problema de datos con IA"/>
+<meta property="og:description" content="Resuelve problemas reales de datos con IA, sin perder el control. Una forma de trabajar que sobrevive a las herramientas y modelos que vengan."/>
+<meta property="og:image" content="https://soyomarvaldezg.github.io/datos-con-criterio/ValdezDataFinal.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="favicon/favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png"/>
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png"/>
+<style>
+  :root {
+    --ink: #1c1815;
+    --muted: #6b645c;
+    --line: #ded7cc;
+    --paper: #f7f3ea;
+    --card: #fffdf8;
+    --accent: #c2410c;
+    --accent-dark: #9a3412;
+    --accent-soft: #fdf1e7;
+    --ok: #3f6212;
+    --ok-soft: #f2f7e9;
+    --bad: #9f1239;
+    --bad-soft: #fdf0f2;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
+  .narrow { max-width: 700px; margin: 0 auto; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--accent-dark); }
+  h1, h2, h3, .big-num { font-family: Georgia, "Times New Roman", serif; letter-spacing: -0.015em; }
+
+  .hero { background: var(--ink); color: #f5f1e8; padding: 72px 0 60px; }
+  .hero .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: #b8a98f; margin: 0 0 18px; font-weight: 700; }
+  .hero h1 { font-size: clamp(36px, 6.5vw, 58px); line-height: 1.06; margin: 0 0 20px; font-weight: 700; color: #faf7f0; }
+  .hero h1 .dot { color: #f97316; }
+  .hero .standfirst { font-size: 19px; color: #d6cfc2; margin: 0 0 30px; max-width: 38em; }
+  .hero .standfirst b { color: #faf7f0; }
+  .btn {
+    display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+    padding: 14px 28px; font-size: 16px; font-weight: 700; border-radius: 3px; border: none; cursor: pointer;
+    font-family: inherit;
+  }
+  .btn:hover { background: var(--accent-dark); color: #fff; }
+  .btn.ghost { background: transparent; color: #d6cfc2; border: 1px solid #4a443c; margin-left: 10px; }
+  .btn.ghost:hover { color: #faf7f0; border-color: #7a7266; background: transparent; }
+
+  .stats { background: var(--card); border-bottom: 1px solid var(--line); }
+  .stats .row { display: flex; flex-wrap: wrap; }
+  .stats .cell { flex: 1 1 160px; padding: 26px 18px; text-align: center; border-right: 1px solid var(--line); }
+  .stats .cell:last-child { border-right: none; }
+  .stats .big-num { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; display: block; }
+  .stats .lbl { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 8px; display: block; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.band { background: var(--card); }
+  h2 { font-size: 30px; margin: 0 0 10px; font-weight: 700; }
+  h2 .no { color: var(--bad); font-weight: 800; }
+  .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; color: var(--accent); margin: 0 0 10px; font-weight: 800; }
+  .sub { color: var(--muted); font-size: 15.5px; margin: 0 0 22px; }
+
+  .quotes { display: grid; gap: 14px; margin-top: 24px; }
+  .quote { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); padding: 18px 22px; }
+  section.band .quote { background: var(--paper); }
+  .quote p.q { font-family: Georgia, serif; font-size: 18px; margin: 0; line-height: 1.45; }
+  .quote p.q-en { font-size: 13.5px; color: var(--muted); margin: 7px 0 0; font-style: italic; }
+  .quote p.src { font-size: 12.5px; margin: 7px 0 0; }
+  .quote p.src a { color: var(--muted); }
+
+  .blocks { display: grid; gap: 16px; margin-top: 26px; }
+  .block { background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--accent); padding: 24px 26px; }
+  section:not(.band) .block { background: var(--card); }
+  .block .tag { font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; color: var(--accent); margin: 0 0 8px; }
+  .block h3 { margin: 0 0 6px; font-size: 22px; }
+  .block .q { margin: 0 0 12px; font-size: 15px; color: var(--muted); font-style: italic; }
+  .block ul { margin: 0; padding-left: 20px; font-size: 15.5px; }
+  .block ul li { padding: 4px 0; }
+
+  .zoom { padding: 0; list-style: none; margin: 22px 0 0; }
+  .zoom li { padding: 13px 0 13px 46px; position: relative; border-top: 1px solid var(--line); }
+  .zoom li:first-child { border-top: none; }
+  .zoom li::before {
+    content: attr(data-n); position: absolute; left: 0; top: 12px;
+    font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1;
+  }
+  .zoom b { display: block; font-size: 16.5px; font-family: Georgia, serif; }
+  .zoom span { font-size: 14px; color: var(--muted); }
+
+  .ba { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 26px 0 0; }
+  @media (min-width: 780px) { .ba { grid-template-columns: 1fr 1fr; } }
+  .ba .col { padding: 24px 26px; border-radius: 4px; }
+  .ba .before { background: var(--bad-soft); border: 1px solid #e8c3cc; }
+  .ba .after { background: var(--ok-soft); border: 1px solid #c9d9a8; }
+  .ba .when { font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; margin: 0 0 6px; }
+  .ba .before .when { color: var(--bad); }
+  .ba .after .when { color: var(--ok); }
+  .ba h3 { margin: 0 0 14px; font-size: 21px; }
+  .ba ul { margin: 0; padding-left: 20px; font-size: 15.5px; }
+  .ba ul li { padding: 5px 0; }
+  .ba .bottom { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid rgba(0,0,0,.12); font-size: 14.5px; font-weight: 600; }
+
+  .tools { padding: 0; list-style: none; margin: 22px 0 0; }
+  .tools li { padding: 12px 0 12px 30px; position: relative; border-top: 1px dotted var(--line); font-size: 15.5px; }
+  .tools li:first-child { border-top: none; }
+  .tools li::before { content: "+"; position: absolute; left: 2px; top: 10px; color: var(--accent); font-weight: 800; font-size: 17px; }
+  .tools b { font-weight: 700; }
+
+  .bonus { margin: 26px 0 0; background: var(--paper); border: 1px dashed var(--line); padding: 20px 24px; border-radius: 4px; }
+  section:not(.band) .bonus { background: var(--card); }
+  .bonus h3 { margin: 0 0 10px; font-size: 17px; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .bonus ul { margin: 0; padding-left: 20px; font-size: 15px; color: var(--muted); }
+  .bonus li { padding: 3px 0; }
+
+  .about { display: flex; gap: 28px; align-items: flex-start; margin-top: 24px; flex-wrap: wrap; }
+  .about img {
+    width: 170px; height: 226px; object-fit: cover; object-position: center 22%;
+    border: 1px solid var(--ink);
+    box-shadow: 6px 6px 0 rgba(28, 24, 21, 0.12); border-radius: 3px; flex-shrink: 0;
+  }
+  .about .bio { flex: 1 1 300px; min-width: 0; }
+  .about .bio p { margin: 0 0 14px; font-size: 15.5px; }
+  .about .links { font-size: 14px; color: var(--muted); margin: 4px 0 0; }
+  .about .links .sep { margin: 0 6px; color: var(--line); }
+  .about .links svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; margin-right: 6px; }
+  .about .certs { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+  .about .cert { display: block; }
+  .about .cert img { width: 72px; height: 72px; display: block; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px var(--line); }
+  .about .cert:hover img { box-shadow: 0 0 0 1px var(--ink); }
+
+  .offer { text-align: center; padding: 46px 28px; background: var(--ink); color: #f5f1e8; border-radius: 4px; }
+  .offer .anchor { font-family: Georgia, serif; font-size: clamp(22px, 4vw, 30px); font-weight: 700; line-height: 1.3; margin: 0 0 22px; color: #faf7f0; }
+  .offer .anchor em { font-style: italic; color: #fdba74; }
+  .offer .founder { font-size: 56px; font-weight: 800; font-family: Georgia, serif; color: #faf7f0; line-height: 1; display: block; margin-bottom: 10px; }
+  .offer .founder .unit { font-size: 20px; font-weight: 700; letter-spacing: .06em; margin-left: 6px; }
+  .offer .priceline { font-size: 16px; color: #d6cfc2; }
+  .offer .priceline b { color: #faf7f0; }
+  .offer .details { color: #b8a98f; font-size: 14px; max-width: 48ch; margin: 16px auto 0; }
+
+  .capture { border: 2px solid var(--ink); background: var(--card); padding: 24px 26px; margin: 30px 0 6px; border-radius: 4px; }
+  .capture p.pitch { margin: 0 0 14px; font-weight: 700; font-size: 17px; }
+  .capture p.pitch small { display: block; font-weight: 400; color: var(--muted); font-size: 14px; margin-top: 5px; line-height: 1.5; }
+  .capture form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .capture input[type=email] {
+    flex: 1 1 230px; padding: 13px 14px; border: 1px solid var(--ink); background: #fff;
+    font-size: 16px; font-family: inherit; border-radius: 3px;
+  }
+  .capture .fineprint { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+  .capture .done { display: none; color: var(--ok); font-weight: 700; margin: 0; }
+  .capture .error { display: none; color: var(--accent-dark); font-size: 14px; margin: 8px 0 0; }
+
+  .fit { display: grid; gap: 20px; margin-top: 22px; }
+  @media (min-width: 780px) { .fit { grid-template-columns: 1fr 1fr; } }
+  .fit .col { padding: 22px 24px; border-radius: 4px; }
+  .fit .yes-col { background: var(--ok-soft); border: 1px solid #c9d9a8; }
+  .fit .no-col { background: var(--bad-soft); border: 1px solid #e8c3cc; }
+  .fit h3 { margin: 0 0 12px; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; font-family: -apple-system, sans-serif; }
+  .fit .yes-col h3 { color: var(--ok); }
+  .fit .no-col h3 { color: var(--bad); }
+  .fit ul { margin: 0; padding: 0; list-style: none; }
+  .fit li { padding: 9px 0 9px 26px; position: relative; font-size: 15px; border-top: 1px solid rgba(0,0,0,.07); }
+  .fit li:first-child { border-top: none; }
+  .fit li::before { position: absolute; left: 0; top: 9px; font-weight: 800; font-size: 16px; }
+  .fit .yes-col li::before { content: "+"; color: var(--ok); }
+  .fit .no-col li::before { content: "×"; color: var(--bad); }
+
+  details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  details:last-of-type { border-bottom: none; }
+  details summary { cursor: pointer; font-weight: 700; font-size: 16px; }
+  details p { color: var(--muted); margin: 8px 0 0; font-size: 15px; }
+
+  footer { padding: 40px 0 60px; font-size: 13px; color: var(--muted); }
+  footer p { margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Para quien trabaja con datos y usa IA</p>
+    <h1>Resuelve cualquier problema de datos con IA<span class="dot">.</span></h1>
+    <p class="standfirst"><b>Es un curso</b>, y lo terminas en menos de dos horas: los <b>fundamentos</b> para saber cuándo creerle a la IA, el <b>workflow calibrado para datos</b> — el mismo que uso yo — y un problema real: <b>un dashboard lento con millones de registros</b>, resuelto frente a ti, con el código. <b>Una forma de trabajar</b> que sobrevive a las herramientas y a los modelos que vengan.</p>
+    <a class="btn" href="#capture1">Quiero acceso anticipado</a>
+    <a class="btn ghost" href="#compras">Ver qué contiene</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="row">
+      <div class="cell"><span class="big-num">8</span><span class="lbl">videos · menos de 2 horas</span></div>
+      <div class="cell"><span class="big-num">3</span><span class="lbl">problemas raíz en el proyecto</span></div>
+      <div class="cell"><span class="big-num">5</span><span class="lbl">herramientas</span></div>
+      <div class="cell"><span class="big-num">1</span><span class="lbl">problema real · código incluido</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="problemas">
+  <div class="wrap narrow">
+    <p class="kicker">El problema</p>
+    <h2>La IA <span class="no">no</span> te avisa cuándo inventa. En datos, <em>el error se ve bien</em>.</h2>
+    <p class="sub">Si trabajas con datos, ya te pasó. Y no es que uses mal la herramienta. Nadie te enseñó a distinguirlo. Escúchalos a ellos:</p>
+
+    <div class="quotes">
+      <div class="quote">
+        <p class="q">"Las queries inventadas que se ven bien, pero jalan de las tablas equivocadas."</p>
+        <p class="q-en">"The hallucinated queries that look right but pull from wrong tables."</p>
+        <p class="src">— <a href="https://www.reddit.com/r/BusinessIntelligence/comments/1rkgy94/what_does_chatgptclaude_do_in_analytics_work_that/" target="_blank" rel="noopener">r/BusinessIntelligence</a></p>
+      </div>
+      <div class="quote">
+        <p class="q">"Ya me harté de pegarle mi schema una y otra vez."</p>
+        <p class="q-en">"I got sick of constantly pasting in my schema."</p>
+        <p class="src">— <a href="https://www.reddit.com/r/dataengineering/comments/1iexhns/does_anyone_actually_generate_useful_sql_with_ai/" target="_blank" rel="noopener">r/dataengineering</a></p>
+      </div>
+      <div class="quote">
+        <p class="q">"El tiempo que me gastaría revisándola hace que casi prefiera no usarla."</p>
+        <p class="q-en">"The amount of time I'd spend checking things over before I'm happy running it means I'm much less likely to feed it."</p>
+        <p class="src">— <a href="https://www.reddit.com/r/SQL/comments/127zawr/who_here_is_using_chatgpt_to_help_with_sql_code/" target="_blank" rel="noopener">r/SQL</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compras" class="band">
+  <div class="wrap narrow">
+    <p class="kicker">Lo que compras</p>
+    <h2>Tres bloques. Eso es todo el curso.</h2>
+
+    <div class="blocks">
+      <div class="block">
+        <p class="tag">Bloque 1 · 3 videos</p>
+        <h3>Fundamentos</h3>
+        <p class="q">Responde: ¿cuándo le creo a la IA y cuándo no?</p>
+        <ul>
+          <li>Los dos modos: cuándo te ahorra de verdad y cuándo te inventa</li>
+          <li>El error que pasa inadvertido — hasta que lo descubren en la junta</li>
+          <li>Leer un resultado no es verificarlo</li>
+          <li>Qué se acumula cuando los trucos caducan: los fundamentos</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <p class="tag">Bloque 2 · 3 videos</p>
+        <h3>El workflow</h3>
+        <p class="q">Responde: ¿cómo ataco cualquier problema de datos con IA?</p>
+        <ul>
+          <li>Cómo arrancar cualquier problema sin improvisar</li>
+          <li>Qué contarle de tu empresa — y qué nunca</li>
+          <li>Qué verificar de lo que te entrega, y cuánto según el riesgo</li>
+          <li>El mismo workflow que uso yo, calibrado para datos</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <p class="tag">Bloque 3 · 2 videos</p>
+        <h3>El proyecto</h3>
+        <p class="q">Responde: muéstramelo funcionando.</p>
+        <ul>
+          <li>"El dashboard está lento" — con millones de registros</li>
+          <li>La IA jala de tablas equivocadas: el problema de contexto</li>
+          <li>El modelado que multiplica filas, y el índice que falta</li>
+          <li>El código, para correrlo en tu máquina</li>
+          <li>Un caso de data engineering tal cual llega: algo dejó de rendir, y hay que encontrar el porqué</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ba">
+      <div class="col before">
+        <p class="when">Sin el curso</p>
+        <h3>Cada problema, improvisado</h3>
+        <ul>
+          <li>El prompt sale de la nada, cada vez desde cero.</li>
+          <li>Revisas lo que te da tiempo, no lo que hace falta.</li>
+          <li>Entregas y esperas que nadie pregunte de dónde salió el número.</li>
+        </ul>
+        <p class="bottom">El problema cambia. Tu forma de enfrentarlo, también.</p>
+      </div>
+      <div class="col after">
+        <p class="when">Con el curso</p>
+        <h3>Cualquier problema, la misma estructura</h3>
+        <ul>
+          <li>Arrancas sabiendo qué pedir, con el resultado esperado por escrito.</li>
+          <li>La IA trabaja con lo que le das — no adivinando.</li>
+          <li>Entregas lo que puedes defender. Y aguanta la junta.</li>
+        </ul>
+        <p class="bottom">El problema cambia. La estructura no.</p>
+      </div>
+    </div>
+
+    <div class="capture" id="capture1">
+      <p class="pitch">Deja tu correo y entra al acceso anticipado:
+        <small>Entras de los primeros, con el precio de estreno, y te aviso con un correo cuando abra.</small>
+      </p>
+      <form class="waitlist" novalidate>
+        <input type="email" placeholder="tu@correo.com" aria-label="Tu correo" required/>
+        <button type="submit" class="btn">Quiero acceso anticipado</button>
+      </form>
+      <p class="done">Listo. Estás dentro — te aviso cuando abra.</p>
+      <p class="error">Ese correo no se ve bien — revísalo.</p>
+      <p class="fineprint">Un solo correo cuando abre. Nada más. Te sales con un clic.</p>
+    </div>
+  </div>
+</section>
+
+<section id="videos">
+  <div class="wrap narrow">
+    <p class="kicker">El detalle</p>
+    <h2>Los 8 videos</h2>
+    <ul class="zoom">
+      <li data-n="1"><b>Los dos modos y el territorio</b><span>Responde: ¿cuándo me ahorra de verdad y cuándo me inventa?</span></li>
+      <li data-n="2"><b>El error que no avisa</b><span>Responde: ¿por qué en datos el error llega hasta la junta sin que nadie lo vea venir?</span></li>
+      <li data-n="3"><b>Leer no es verificar, y lo que se acumula</b><span>Responde: ¿cuánto revisar según el riesgo — y qué aprender para que tu carrera valga más, no menos?</span></li>
+      <li data-n="4"><b>El flujo completo</b><span>Responde: ¿cuál es la estructura para cualquier problema de datos?</span></li>
+      <li data-n="5"><b>Aclarar y dar contexto</b><span>Responde: ¿cómo hago que la IA deje de adivinar sobre mi empresa, y cómo dejo por escrito el resultado que exijo?</span></li>
+      <li data-n="6"><b>La checklist y el semáforo</b><span>Responde: ¿qué reviso antes de entregar, con cuánta profundidad, y contra qué lo contrasto?</span></li>
+      <li data-n="7"><b>El dashboard lento, parte 1</b><span>Delegar el diagnóstico con el encargo por escrito, y ver a la IA fallar donde tiene que fallar.</span></li>
+      <li data-n="8"><b>El dashboard lento, parte 2</b><span>Dar contexto, medir la diferencia y entregar — con el código incluido.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="llevas" class="band">
+  <div class="wrap narrow">
+    <p class="kicker">Lo que te llevas</p>
+    <h2>Las 5 herramientas</h2>
+    <p class="sub">Todo lo que se usa en el curso, listo para descargar y usar.</p>
+
+    <ul class="tools">
+      <li><b>La checklist de 5 preguntas.</b> Antes de delegar, el encargo por escrito: qué resultado exiges y cómo se comprueba. Después, las 5 preguntas que comprueban justo eso, con su semáforo según el riesgo.</li>
+      <li><b>La plantilla de contexto.</b> Lo que la IA necesita saber de tu empresa, en un solo archivo: métricas, reglas y límites — lo llenas una vez y lo reusas siempre.</li>
+      <li><b>El flujo en una página.</b> La estructura completa en una sola página — digital o impresa, para tenerla a la vista mientras trabajas.</li>
+      <li><b>Tu plan de aprendizaje.</b> Qué aprender, qué ignorar sin culpa, y una revisión corta y periódica para seguir vigente.</li>
+      <li><b>El repo del proyecto.</b> La base de datos con millones de registros, las queries y el archivo de contexto. Corre en Windows, macOS y Linux con Docker.</li>
+    </ul>
+
+    <div class="bonus">
+      <h3>Bonus incluidos con tu compra</h3>
+      <p style="margin:0 0 8px;font-size:14px;color:var(--muted)">Para todos los compradores, sin costo extra — no son un nivel aparte.</p>
+      <ul>
+        <li>La capa semántica: cuando el glosario ya no alcanza</li>
+        <li>Cómo elegir tu IA — el método, no las marcas</li>
+        <li>¿Tu empresa quiere IA sobre sus datos? Qué arreglar primero</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="quien-soy">
+  <div class="wrap narrow">
+    <p class="kicker">¿Quién soy?</p>
+    <h2>Detrás del curso</h2>
+    <div class="about">
+      <img src="omar-valdez.jpg" alt="Omar Valdez"/>
+      <div class="bio">
+        <p>Soy <b>Omar Valdez G</b>. He trabajado en datos de todo: desde construir reportes y pipelines hasta definir arquitecturas empresariales y participar en iniciativas de gran escala.</p>
+        <p>Con el tiempo entendí que construir sistemas es solo la mitad del trabajo. La otra mitad — y quizá la más importante — es entender por qué tomamos ciertas decisiones, qué problemas resuelven y qué trade-offs implican.</p>
+        <p>Mi compromiso es el mismo en todo lo que comparto: contenido útil antes que viral, temas complejos explicados de forma clara, y principios que sigan sirviendo aunque cambien las herramientas.</p>
+        <p class="links">
+          <a href="https://blog.soyomarvaldezg.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Mi blog</a><span class="sep">·</span><a href="https://www.credly.com/users/soyomarvaldezg/badges" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>Mis certificaciones</a><span class="sep">·</span><a href="https://links.soyomarvaldezg.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Todo lo demás</a>
+        </p>
+        <div class="certs">
+          <a class="cert" href="https://www.credly.com/badges/d460f531-1435-481f-b477-b93c5a0bc682/public_url" target="_blank" rel="noopener" title="Professional Data Engineer Certification · Google Cloud"><img src="badges/gcp-professional-data-engineer.png" alt="Google Cloud Certified, Professional Data Engineer" width="72" height="72"/></a>
+          <a class="cert" href="https://www.credly.com/badges/00ba3ad1-183f-4bd2-afaa-9e56ecb72d71/public_url" target="_blank" rel="noopener" title="Professional Cloud Architect Certification · Google Cloud"><img src="badges/gcp-professional-cloud-architect.png" alt="Google Cloud Certified, Professional Cloud Architect" width="72" height="72"/></a>
+          <a class="cert" href="https://www.credly.com/badges/38fce40c-2a1a-442a-b60b-6afb5ff94ea1/public_url" target="_blank" rel="noopener" title="AWS Certified AI Practitioner · Amazon Web Services"><img src="badges/aws-ai-practitioner.png" alt="AWS Certified AI Practitioner" width="72" height="72"/></a>
+          <a class="cert" href="https://www.credly.com/badges/f533a9b1-1d55-461b-81c0-6a7d0b2e9c14/public_url" target="_blank" rel="noopener" title="Astronomer Certification for Apache Airflow 3 Fundamentals"><img src="badges/airflow-3-fundamentals.png" alt="Astronomer Certification for Apache Airflow 3 Fundamentals" width="72" height="72"/></a>
+          <a class="cert" href="https://www.credly.com/badges/f8b51dd9-539e-44f7-bd08-fe788509e54f/public_url" target="_blank" rel="noopener" title="Cloud Digital Leader Certification · Google Cloud"><img src="badges/gcp-cloud-digital-leader.png" alt="Google Cloud Certified, Cloud Digital Leader" width="72" height="72"/></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oferta">
+  <div class="wrap narrow">
+    <p class="kicker">La oferta</p>
+    <div class="offer">
+      <p class="anchor">Menos que un intento de examen de certificación. <em>Y este no se vence.</em></p>
+      <span class="founder">$15 <span class="unit">USD</span></span>
+      <p class="priceline"><b>Pago único</b> · acceso de por vida · precio de estreno para <b>los primeros 30</b> · después sube a $45 USD</p>
+      <p class="details">Garantía de 30 días: si no te sirvió, te lo devuelvo, sin preguntas.</p>
+    </div>
+
+    <div class="capture" id="capture2" style="margin-top:26px">
+      <p class="pitch">Deja tu correo y reserva tu lugar:
+        <small>Un solo correo cuando abra — con tu precio de estreno esperándote.</small>
+      </p>
+      <form class="waitlist" novalidate>
+        <input type="email" placeholder="tu@correo.com" aria-label="Tu correo" required/>
+        <button type="submit" class="btn">Quiero acceso anticipado</button>
+      </form>
+      <p class="done">Listo. Estás dentro — te aviso cuando abra.</p>
+      <p class="error">Ese correo no se ve bien — revísalo.</p>
+    </div>
+  </div>
+</section>
+
+<section id="para-quien" class="band">
+  <div class="wrap">
+    <p class="kicker">Honestidad primero</p>
+    <h2>¿Es para ti?</h2>
+
+    <div class="fit">
+      <div class="col yes-col">
+        <h3>Te va a servir si...</h3>
+        <ul>
+          <li>Trabajas con datos — analista o data engineer — y usas IA a diario, o quieres usarla bien.</li>
+          <li>Entregas resultados que en parte generó la IA, y quieres dejar de hacerlo a ciegas.</li>
+          <li>Quieres delegar más en la IA, sin perder el control de lo que entregas.</li>
+          <li>Eres junior y quieres la estructura que da la experiencia, sin esperar cinco años.</li>
+          <li>Ya tomaste cursos de IA y sigues sin saber cuándo creerle.</li>
+          <li>Sientes que no puedes seguir el ritmo de la IA — cada semana sale algo nuevo — y no sabes qué de eso te sirve a ti.</li>
+        </ul>
+      </div>
+      <div class="col no-col">
+        <h3>NO es para ti si...</h3>
+        <ul>
+          <li>Quieres aprender conceptos de RAG, MCP o fine-tuning. Eso lo encuentras gratis en YouTube.</li>
+          <li>Buscas trucos de prompting de moda.</li>
+          <li>Esperas que la IA haga tu trabajo sola, sin que toques nada. Este curso te enseña dónde poner la mano.</li>
+          <li>Buscas un diploma o certificación. Aquí se compra una estructura y herramientas, no papel.</li>
+          <li>Quieres un curso largo y enciclopédico. Esto es una hora con lo esencial y las herramientas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap narrow">
+    <p class="kicker">Preguntas</p>
+    <h2>Lo que suelen preguntarme</h2>
+    <details>
+      <summary>¿Sirve para cualquier problema de datos?</summary>
+      <p>Para cualquier problema que resuelvas con datos: una query lenta, una métrica que nadie definió igual, un pipeline que duplica filas, un dashboard que no cuadra. El flujo es el mismo — cambia el contenido de cada paso.</p>
+    </details>
+    <details>
+      <summary>¿Es un curso de RAG, MCP o agentes?</summary>
+      <p>No. Eso se encuentra en YouTube y en otros recursos. Este curso es para usar la IA en tus problemas de datos, todos los días.</p>
+    </details>
+    <details>
+      <summary>¿Esto es spec-driven development?</summary>
+      <p>Sí y no. Lo de aclarar antes de delegar, el software lo llama spec-driven development. Pero en datos eso no alcanza. La IA puede cumplir todo lo que le pediste y el número sigue mal. Aquí el resultado se comprueba contra la realidad, con la fuente y un conteo manual. Lo que pediste también puede estar mal.</p>
+    </details>
+    <details>
+      <summary>No sé nada de IA. ¿Me sirve?</summary>
+      <p>Sí, si trabajas con datos. El curso no asume que sabes cómo funciona un modelo por dentro — y no lo enseña. Lo técnico no te detiene: cada término se explica en palabras simples justo cuando aparece.</p>
+    </details>
+    <details>
+      <summary>¿El proyecto se puede correr en mi máquina?</summary>
+      <p>Sí. Corre en Windows, macOS y Linux con Docker. Y no es un problema de juguete: la base de datos trae millones de registros, del tamaño de los que se ven en el trabajo real.</p>
+    </details>
+    <details>
+      <summary>¿Cuándo abre?</summary>
+      <p>El acceso anticipado define el cierre: cuando haya suficiente interés, abrimos — y quien dejó su correo entra primero, con el precio de estreno. Te aviso con un solo correo.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto cuesta y por qué tan barato?</summary>
+      <p>Hoy: $15 USD de pago único para los primeros 30, un precio de regalo para la comunidad de datos, que me ha dado mucho. Después sube a $45 USD, y seguirá subiendo: el precio de hoy es el más bajo que existirá. Sin suscripciones, sin ventas escondidas: pagas una vez y es tuyo de por vida.</p>
+    </details>
+    <details>
+      <summary>¿Por cuánto tiempo tengo acceso?</summary>
+      <p>Para siempre. Es una compra única, con acceso de por vida — y las actualizaciones futuras incluidas: si algo cambia y el curso se actualiza, lo recibes sin pagar de nuevo.</p>
+    </details>
+    <details>
+      <summary>¿Funciona con mi modelo de IA?</summary>
+      <p>El flujo es agnóstico: sirve con el modelo de IA que uses hoy — y con el que exista el próximo año. No te enseño una herramienta, te enseño la estructura que sobrevive cuando cambie.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto tiempo toma?</summary>
+      <p>Menos de dos horas, en 8 videos que puedes ver en una tarde. Las herramientas se usan desde el día siguiente.</p>
+    </details>
+    <details>
+      <summary>¿Y si no me sirve?</summary>
+      <p>Garantía de 30 días: me escribes, te devuelvo el dinero, sin preguntas. El riesgo es mío, no tuyo.</p>
+    </details>
+    <details>
+      <summary>¿Qué hacen con mi correo?</summary>
+      <p>Una cosa: avisarte cuando abra. Sin cadenas de correos, sin venderlo. Te sales con un clic cuando quieras.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Omar Valdez · <a href="https://links.soyomarvaldezg.com">links.soyomarvaldezg.com</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var KEY = "curso-fundadores";
+  document.querySelectorAll(".capture").forEach(function (box) {
+    var form = box.querySelector("form.waitlist");
+    var input = box.querySelector("input[type=email]");
+    var done = box.querySelector(".done");
+    var error = box.querySelector(".error");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = input.value.trim();
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+      error.style.display = ok ? "none" : "block";
+      if (!ok) return;
+      var list = [];
+      try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (x) {}
+      if (list.indexOf(value) === -1) list.push(value);
+      localStorage.setItem(KEY, JSON.stringify(list));
+      form.style.display = "none";
+      done.style.display = "block";
+    });
+  });
+})();
+</script>
+</body>
+</html>
