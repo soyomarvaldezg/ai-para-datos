@@ -10,7 +10,12 @@
 <meta property="og:url" content="https://soyomarvaldezg.github.io/datos-con-criterio/"/>
 <meta property="og:title" content="Datos con Criterio — resuelve cualquier problema de datos con IA"/>
 <meta property="og:description" content="Resuelve problemas reales de datos con IA, sin perder el control. Una forma de trabajar que sobrevive a las herramientas y modelos que vengan."/>
-<meta property="og:image" content="https://soyomarvaldezg.github.io/datos-con-criterio/ValdezDataFinal.png"/>
+<meta property="og:image" content="https://soyomarvaldezg.github.io/datos-con-criterio/og-image.jpg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Datos con Criterio — resuelve cualquier problema de datos con IA"/>
+<meta property="og:site_name" content="Datos con Criterio"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="favicon/favicon.ico" sizes="any"/>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png"/>
@@ -176,6 +181,8 @@
   .capture .emailoctopus-success-message { color: var(--ok) !important; font-weight: 700 !important; }
   .capture .emailoctopus-error-message { color: var(--accent-dark) !important; }
   .capture h1, .capture h1 + div { display: none !important; }
+  .capture div:has(> .emailoctopus-form) { background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; }
+  .capture div:has(> .emailoctopus-form) > :not(.emailoctopus-form):not(p[class*="emailoctopus-"]):not(:has(a)) { display: none !important; }
 
   .fit { display: grid; gap: 20px; margin-top: 22px; }
   @media (min-width: 780px) { .fit { grid-template-columns: 1fr 1fr; } }
