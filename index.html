@@ -164,6 +164,17 @@
   .capture .fineprint { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
   .capture .done { display: none; color: var(--ok); font-weight: 700; margin: 0; }
   .capture .error { display: none; color: var(--accent-dark); font-size: 14px; margin: 8px 0 0; }
+  .capture .eo-wrap { margin: 14px 0 0; }
+  .capture .emailoctopus-form { background: transparent !important; border: 0 !important; padding: 0 !important; box-shadow: none !important; }
+  .capture .emailoctopus-form .main-form { display: flex !important; gap: 10px !important; flex-wrap: wrap; align-items: stretch; }
+  .capture .emailoctopus-form .form-group { margin: 0 !important; flex: 1 1 220px; }
+  .capture .emailoctopus-form input[type=email] { width: 100% !important; height: 100% !important; border: 2px solid var(--line) !important; border-radius: 4px !important; padding: 12px 14px !important; font-size: 16px !important; background: #fff !important; color: var(--ink) !important; }
+  .capture .emailoctopus-form input[type=submit] { background: var(--accent) !important; color: #fff !important; border: 0 !important; border-radius: 4px !important; padding: 12px 22px !important; font-weight: 700 !important; font-size: 16px !important; cursor: pointer; }
+  .capture .emailoctopus-form input[type=submit]:hover { background: var(--accent-dark) !important; }
+  .capture .emailoctopus-form-row-hp { display: none !important; }
+  .capture .emailoctopus-success-message { color: var(--ok) !important; font-weight: 700 !important; }
+  .capture .emailoctopus-error-message { color: var(--accent-dark) !important; }
+  .capture h1, .capture h1 + div { display: none !important; }
 
   .fit { display: grid; gap: 20px; margin-top: 22px; }
   @media (min-width: 780px) { .fit { grid-template-columns: 1fr 1fr; } }
@@ -196,7 +207,7 @@
     <p class="eyebrow">Para quien trabaja con datos y usa IA</p>
     <h1>Resuelve cualquier problema de datos con IA<span class="dot">.</span></h1>
     <p class="standfirst"><b>Es un curso</b>, y lo terminas en menos de dos horas: los <b>fundamentos</b> para saber cuándo creerle a la IA, el <b>workflow calibrado para datos</b> — el mismo que uso yo — y un problema real: <b>un dashboard lento con millones de registros</b>, resuelto frente a ti, con el código. <b>Una forma de trabajar</b> que sobrevive a las herramientas y a los modelos que vengan.</p>
-    <a class="btn" href="#capture1">Quiero acceso anticipado</a>
+    <a class="btn" href="#capture2">Quiero acceso anticipado</a>
     <a class="btn ghost" href="#compras">Ver qué contiene</a>
   </div>
 </div>
@@ -305,18 +316,6 @@
       </div>
     </div>
 
-    <div class="capture" id="capture1">
-      <p class="pitch">Deja tu correo y entra al acceso anticipado:
-        <small>Entras de los primeros, con el precio de estreno, y te aviso con un correo cuando abra.</small>
-      </p>
-      <form class="waitlist" novalidate>
-        <input type="email" placeholder="tu@correo.com" aria-label="Tu correo" required/>
-        <button type="submit" class="btn">Quiero acceso anticipado</button>
-      </form>
-      <p class="done">Listo. Estás dentro — te aviso cuando abra.</p>
-      <p class="error">Ese correo no se ve bien — revísalo.</p>
-      <p class="fineprint">Un solo correo cuando abre. Nada más. Te sales con un clic.</p>
-    </div>
   </div>
 </section>
 
@@ -402,12 +401,9 @@
       <p class="pitch">Deja tu correo y reserva tu lugar:
         <small>Un solo correo cuando abra — con tu precio de estreno esperándote.</small>
       </p>
-      <form class="waitlist" novalidate>
-        <input type="email" placeholder="tu@correo.com" aria-label="Tu correo" required/>
-        <button type="submit" class="btn">Quiero acceso anticipado</button>
-      </form>
-      <p class="done">Listo. Estás dentro — te aviso cuando abra.</p>
-      <p class="error">Ese correo no se ve bien — revísalo.</p>
+      <div class="eo-wrap">
+        <script async src="https://eocampaign1.com/form/0d56db8e-de34-11f0-9838-c955fe4b6ecd.js" data-form="0d56db8e-de34-11f0-9838-c955fe4b6ecd"></script>
+      </div>
     </div>
   </div>
 </section>
@@ -504,29 +500,5 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  var KEY = "curso-fundadores";
-  document.querySelectorAll(".capture").forEach(function (box) {
-    var form = box.querySelector("form.waitlist");
-    var input = box.querySelector("input[type=email]");
-    var done = box.querySelector(".done");
-    var error = box.querySelector(".error");
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var value = input.value.trim();
-      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
-      error.style.display = ok ? "none" : "block";
-      if (!ok) return;
-      var list = [];
-      try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (x) {}
-      if (list.indexOf(value) === -1) list.push(value);
-      localStorage.setItem(KEY, JSON.stringify(list));
-      form.style.display = "none";
-      done.style.display = "block";
-    });
-  });
-})();
-</script>
 </body>
 </html>
