@@ -1,9 +1,9 @@
-# Datos con Criterio
+# AI para Datos
 
-Landing del curso **Datos con Criterio** — resuelve cualquier problema de datos
-con IA, sin perder el control.
+Landing del curso **AI para Datos** — resuelve problemas reales de datos
+sin confiar a ciegas.
 
-**Sitio:** https://soyomarvaldezg.github.io/datos-con-criterio/
+**Sitio:** https://soyomarvaldezg.github.io/ai-para-datos/
 
 Página estática, sin dependencias: `index.html` + assets (imágenes, badges,
 favicon). Servida con GitHub Pages desde `main`.
