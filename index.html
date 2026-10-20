@@ -74,12 +74,16 @@
   .stats .cell:last-child { border-right: none; }
   .stats .big-num { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; display: block; }
   .stats .lbl { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 8px; display: block; }
+  .stats .note { max-width: 62ch; margin: 22px auto 0; padding: 0 22px; font-size: 15px; color: var(--muted); text-align: center; }
 
   section { padding: 56px 0; border-bottom: 1px solid var(--line); }
   section.band { background: var(--card); }
   h2 { font-size: 30px; margin: 0 0 10px; font-weight: 700; }
   h2 .no { color: var(--bad); font-weight: 800; }
   h2 em { color: var(--muted); }
+  .thesis { font-family: Georgia, "Times New Roman", serif; font-size: 20px; line-height: 1.4; color: var(--ink); margin: 0 0 16px; }
+  .thesis .no { color: var(--bad); font-weight: 700; }
+  .thesis em { color: var(--muted); }
   .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; color: var(--accent); margin: 0 0 10px; font-weight: 800; }
   .sub { color: var(--muted); font-size: 15.5px; margin: 0 0 22px; }
 
@@ -227,18 +231,20 @@
 <div class="stats">
   <div class="wrap">
     <div class="row">
-      <div class="cell"><span class="big-num">8</span><span class="lbl">videos · menos de 2 horas</span></div>
-      <div class="cell"><span class="big-num">3</span><span class="lbl">problemas raíz en el proyecto</span></div>
-      <div class="cell"><span class="big-num">5</span><span class="lbl">herramientas</span></div>
-      <div class="cell"><span class="big-num">1</span><span class="lbl">problema real · código incluido</span></div>
+      <div class="cell"><span class="big-num">8</span><span class="lbl">videos · lo necesario, nada de relleno</span></div>
+      <div class="cell"><span class="big-num">1</span><span class="lbl">caso real con millones de registros</span></div>
+      <div class="cell"><span class="big-num">5</span><span class="lbl">herramientas para usar desde mañana</span></div>
+      <div class="cell"><span class="big-num">1</span><span class="lbl">repo con código, datos y contexto</span></div>
     </div>
+    <p class="note">El proyecto: un dashboard lento con millones de registros, resuelto de principio a fin en cámara. El repo corre en tu máquina con Docker.</p>
   </div>
 </div>
 
 <section id="problemas">
   <div class="wrap narrow">
     <p class="kicker">El problema</p>
-    <h2>La IA <span class="no">no</span> te avisa cuándo inventa. En datos, <em>el error se ve bien</em>.</h2>
+    <h2>¿Detectas cuándo la IA te da un dato mal?</h2>
+    <p class="thesis">La IA <span class="no">no</span> te avisa cuándo inventa. En datos, <em>el error se ve bien</em>.</p>
     <p class="sub">Si trabajas con datos, ya te pasó. Y no es que uses mal la herramienta. Nadie te enseñó a distinguirlo. Escúchalos a ellos:</p>
 
     <div class="quotes">
@@ -433,7 +439,7 @@
           <li>Trabajas con datos — analista o data engineer — y usas IA a diario, o quieres usarla bien.</li>
           <li>Entregas resultados que en parte generó la IA, y quieres dejar de hacerlo a ciegas.</li>
           <li>Quieres delegar más en la IA, sin perder el control de lo que entregas.</li>
-          <li>Eres junior y quieres la estructura que da la experiencia, sin esperar cinco años.</li>
+          <li>Llevas años en datos o apenas empiezas: lo que falta no es experiencia, es estructura.</li>
           <li>Ya tomaste cursos de IA y sigues sin saber cuándo creerle.</li>
           <li>Sientes que no puedes seguir el ritmo de la IA — cada semana sale algo nuevo — y no sabes qué de eso te sirve a ti.</li>
         </ul>
@@ -494,7 +500,7 @@
     </details>
     <details>
       <summary>¿Cuánto tiempo toma?</summary>
-      <p>Menos de dos horas, en 8 videos que puedes ver en una tarde. Las herramientas se usan desde el día siguiente.</p>
+      <p>Menos de dos horas, en 8 videos que puedes ver en una tarde. Un curso de 40 horas no te haría mejor: importa que sean los videos correctos, no más videos. Las herramientas se usan desde el día siguiente.</p>
     </details>
     <details>
       <summary>¿Y si no me sirve?</summary>
