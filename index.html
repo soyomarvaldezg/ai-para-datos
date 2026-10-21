@@ -84,7 +84,18 @@
   .thesis { font-family: Georgia, "Times New Roman", serif; font-size: 20px; line-height: 1.4; color: var(--ink); margin: 0 0 16px; }
   .thesis .no { color: var(--bad); font-weight: 700; }
   .thesis em { color: var(--muted); }
-  .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; color: var(--accent); margin: 0 0 10px; font-weight: 800; }
+  .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; margin: 0 0 10px; font-weight: 800; display: inline-block; color: #fff; background: var(--kc, var(--accent)); padding: 6px 14px; border-radius: 999px; }
+
+  #problemas   { --kc: #9f1239; background: #faf0f2; }
+  #supuestos   { --kc: #c2410c; background: #fdf1e7; }
+  #compras     { --kc: #0f766e; background: #eff7f6; }
+  #videos      { --kc: #6d28d9; background: #f3effd; }
+  #paso-a-paso { --kc: #3f6212; background: #f2f7e9; }
+  #llevas      { --kc: #92400e; background: #faf3e7; }
+  #quien-soy   { --kc: #0369a1; background: #eef6fb; }
+  #oferta      { --kc: #9a3412; background: #f6efe6; }
+  #para-quien  { --kc: #0e7490; background: #f0f8fa; }
+  #faq         { --kc: #4338ca; background: #f2f0fd; }
   .sub { color: var(--muted); font-size: 15.5px; margin: 0 0 22px; }
 
   .quotes { display: grid; gap: 14px; margin-top: 24px; }
@@ -132,6 +143,21 @@
   .tools li:first-child { border-top: none; }
   .tools li::before { content: "+"; position: absolute; left: 2px; top: 10px; color: var(--accent); font-weight: 800; font-size: 17px; }
   .tools b { font-weight: 700; }
+
+  .pains { padding: 0; list-style: none; margin: 22px 0 0; }
+  .pains li { padding: 12px 0; border-top: 1px dotted var(--line); font-size: 15.5px; }
+  .pains li:first-child { border-top: none; }
+  .pains .sym { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 700; display: block; font-size: 16.5px; }
+  .pains .why { color: var(--muted); font-size: 14.5px; display: block; margin-top: 2px; }
+
+  .punch { margin-top: 30px; background: var(--ink); color: #f5f1e8; padding: 30px 30px 26px; border-radius: 4px; }
+  .punch .punch-line { font-family: Georgia, "Times New Roman", serif; font-size: clamp(24px, 4vw, 32px); font-weight: 700; line-height: 1.25; margin: 0 0 10px; color: #faf7f0; }
+  .punch .punch-line em { color: #fdba74; font-style: normal; }
+  .punch .punch-sub { font-size: 17px; color: #d6cfc2; margin: 0; }
+  .punch .punch-sub b { color: #faf7f0; }
+
+  .soft-red { color: var(--bad); font-weight: 700; }
+  .soft-green { color: var(--ok); font-weight: 700; }
 
   .bonus { margin: 26px 0 0; background: var(--paper); border: 1px dashed var(--line); padding: 20px 24px; border-radius: 4px; }
   section:not(.band) .bonus { background: var(--card); }
@@ -267,7 +293,32 @@
   </div>
 </section>
 
-<section id="compras" class="band">
+<section id="supuestos" class="band">
+  <div class="wrap narrow">
+    <p class="kicker">El error que no truena</p>
+    <h2>En software, el error truena. En datos, no.</h2>
+    <p class="sub">En software: <span class="soft-red">pantalla roja, prueba rota, alguien grita.</span> En datos: <span class="soft-green">el pipeline corre en verde</span> — y el número está mal, porque nadie escribió la prueba de tu reporte. La IA no inventó estos errores. Solo los produce más rápido:</p>
+
+    <ul class="pains">
+      <li><span class="sym">"El conteo no cuadra con el total del mes."</span><span class="why">Una llave que creíste única venía duplicada: el join multiplicó filas y cada venta se contó dos veces.</span></li>
+      <li><span class="sym">"Los datos de ayer no aparecen."</span><span class="why">Alguien corrigió el origen a mano, y ese cambio no tocó la marca de tiempo que tu carga usa para saber qué es nuevo.</span></li>
+      <li><span class="sym">"El cliente dado de baja sigue en el reporte."</span><span class="why">Tu carga solo lee altas y cambios; los borrados nunca se reflejan.</span></li>
+      <li><span class="sym">"Un día del mes siempre se dobla."</span><span class="why">Una fuente manda fechas en UTC y otra en hora local: el día se parte en dos.</span></li>
+      <li><span class="sym">"El reporte quedó vacío, sin avisar."</span><span class="why">Renombraron una columna en el origen; la carga corrió en verde, con cero filas.</span></li>
+      <li><span class="sym">"El número del mes pasado cambió solo."</span><span class="why">Los eventos no eran inmutables: alguien los editó y tu carga incremental nunca volvió por ellos.</span></li>
+      <li><span class="sym">"El cierre del mes cambia días después."</span><span class="why">Los datos que llegan tarde entran cuando el reporte ya se entregó; nadie los reprocesa.</span></li>
+      <li><span class="sym">"La métrica bajó poquito y nadie sabe por qué."</span><span class="why">Un campo numérico empezó a llegar con letras y, en vez de fallar, se truncó.</span></li>
+      <li><span class="sym">"El total por cliente sale inflado."</span><span class="why">Asumiste que el join era uno a uno; un duplicado rompió los totales.</span></li>
+    </ul>
+
+    <div class="punch">
+      <p class="punch-line">Todos son el mismo error: <em>un supuesto que sonaba obvio.</em></p>
+      <p class="punch-sub">¿Te suena alguno? El método del curso existe para atraparlos <b>antes de entregar</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="compras">
   <div class="wrap narrow">
     <p class="kicker">Lo que compras</p>
     <h2>Tres bloques. Eso es todo el curso.</h2>
@@ -279,7 +330,7 @@
         <p class="q">Responde: ¿cuándo le creo a la IA y cuándo no?</p>
         <ul>
           <li>Los dos modos: cuándo te ahorra de verdad y cuándo te inventa</li>
-          <li>El error que pasa inadvertido — hasta que lo descubren en la junta</li>
+          <li>El error que pasa inadvertido — hasta que lo descubren en lo que tú entregaste</li>
           <li>Leer un resultado no es verificarlo</li>
           <li>Qué se acumula cuando los trucos caducan: los fundamentos</li>
         </ul>
@@ -304,7 +355,7 @@
         <ul>
           <li>"El dashboard está lento" — con millones de registros</li>
           <li>La IA jala de tablas equivocadas: el problema de contexto</li>
-          <li>El modelado que multiplica filas, y el índice que falta</li>
+          <li>El modelado que multiplica filas y el índice que falta — dos de la familia de errores que viste arriba</li>
           <li>El código, para correrlo en tu máquina</li>
           <li>Un caso de data engineering tal cual llega: algo dejó de rendir, y hay que encontrar el porqué</li>
         </ul>
@@ -328,7 +379,7 @@
         <ul>
           <li>Arrancas sabiendo qué pedir, con el resultado esperado por escrito.</li>
           <li>La IA trabaja con lo que le das — no adivinando.</li>
-          <li>Entregas lo que puedes defender. Y aguanta la junta.</li>
+          <li>Entregas lo que puedes defender — porque ya lo comprobaste.</li>
         </ul>
         <p class="bottom">El problema cambia. La estructura no.</p>
       </div>
@@ -337,19 +388,36 @@
   </div>
 </section>
 
-<section id="videos">
+<section id="videos" class="band">
   <div class="wrap narrow">
     <p class="kicker">El detalle</p>
     <h2>Los 8 videos</h2>
     <ul class="zoom">
       <li data-n="1"><b>Los dos modos y el territorio</b><span>Responde: ¿cuándo me ahorra de verdad y cuándo me inventa?</span></li>
-      <li data-n="2"><b>El error que no avisa</b><span>Responde: ¿por qué en datos el error llega hasta la junta sin que nadie lo vea venir?</span></li>
+      <li data-n="2"><b>El error que no avisa</b><span>Responde: ¿por qué el error de datos viaja callado hasta tu entrega, sin que nadie lo vea venir?</span></li>
       <li data-n="3"><b>Leer no es verificar, y lo que se acumula</b><span>Responde: ¿cuánto revisar según el riesgo — y qué aprender para que tu carrera valga más, no menos?</span></li>
       <li data-n="4"><b>El flujo completo</b><span>Responde: ¿cuál es la estructura para cualquier problema de datos?</span></li>
       <li data-n="5"><b>Aclarar y dar contexto</b><span>Responde: ¿cómo hago que la IA deje de adivinar sobre mi empresa, y cómo dejo por escrito el resultado que exijo?</span></li>
       <li data-n="6"><b>La checklist y el semáforo</b><span>Responde: ¿qué reviso antes de entregar, con cuánta profundidad, y contra qué lo contrasto?</span></li>
       <li data-n="7"><b>El dashboard lento, parte 1</b><span>Delegar el diagnóstico con el encargo por escrito, y ver a la IA fallar donde tiene que fallar.</span></li>
       <li data-n="8"><b>El dashboard lento, parte 2</b><span>Dar contexto, medir la diferencia y entregar — con el código incluido.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="paso-a-paso">
+  <div class="wrap narrow">
+    <p class="kicker">La aplicación</p>
+    <h2>Así se ve, paso a paso</h2>
+    <p class="sub">El proyecto del curso — "mi dashboard está lento" — se resuelve así. La misma estructura sirve para tu problema:</p>
+    <ul class="zoom">
+      <li data-n="1"><b>El encargo, por escrito</b><span>Qué resultado exiges y cómo se comprueba — antes de delegar.</span></li>
+      <li data-n="2"><b>El contexto</b><span>Tu empresa en un archivo: qué mide cada cosa y qué no tocar.</span></li>
+      <li data-n="3"><b>Delegas el diagnóstico</b><span>La IA explora, propone hipótesis y genera las queries.</span></li>
+      <li data-n="4"><b>La IA responde — y suena segura</b><span>Suena igual cuando acierta que cuando inventa. La seguridad no es evidencia.</span></li>
+      <li data-n="5"><b>La checklist convierte la revisión en comparación</b><span>Contra tu encargo — no contra tu intuición.</span></li>
+      <li data-n="6"><b>Contrastas con la fuente</b><span>La base de datos dice la verdad: se mide, no se opina.</span></li>
+      <li data-n="7"><b>Entregas</b><span>Y la entrega lleva tu nombre.</span></li>
     </ul>
   </div>
 </section>
@@ -361,20 +429,20 @@
     <p class="sub">Todo lo que se usa en el curso, listo para descargar y usar.</p>
 
     <ul class="tools">
-      <li><b>La checklist de 5 preguntas.</b> Antes de delegar, el encargo por escrito: qué resultado exiges y cómo se comprueba. Después, las 5 preguntas que comprueban justo eso, con su semáforo según el riesgo.</li>
-      <li><b>La plantilla de contexto.</b> Lo que la IA necesita saber de tu empresa, en un solo archivo: métricas, reglas y límites — lo llenas una vez y lo reusas siempre.</li>
+      <li><b>La checklist de 5 preguntas.</b> Una página que convierte la revisión en comparación: el encargo por escrito antes de delegar, cinco preguntas que comprueban justo eso, y un semáforo que decide cuánto revisar según quién lo va a ver. Traducida a tu tarea: SQL, pipeline, análisis o dashboard.</li>
+      <li><b>La plantilla de contexto.</b> Tu empresa en un solo archivo, en cuatro secciones: el schema en simple, el glosario, las reglas y los límites. Lo llenas una vez y lo reusas siempre — con el asistente que ya usas. En el proyecto medimos la diferencia con y sin.</li>
       <li><b>El flujo en una página.</b> La estructura completa en una sola página — digital o impresa, para tenerla a la vista mientras trabajas.</li>
-      <li><b>Tu plan de aprendizaje.</b> Qué aprender, qué ignorar sin culpa, y una revisión corta y periódica para seguir vigente.</li>
+      <li><b>Tu plan de aprendizaje.</b> Qué aprender, qué ignorar sin culpa — con la lista de lo que NO — y una revisión corta y periódica para seguir vigente.</li>
       <li><b>El repo del proyecto.</b> La base de datos con millones de registros, las queries y el archivo de contexto. Corre en Windows, macOS y Linux con Docker.</li>
     </ul>
 
     <div class="bonus">
       <h3>Bonus incluidos con tu compra</h3>
-      <p style="margin:0 0 8px;font-size:14px;color:var(--muted)">Para todos los compradores, sin costo extra — no son un nivel aparte.</p>
+      <p style="margin:0 0 8px;font-size:14px;color:var(--muted)">Tres guías en PDF para todos los compradores, sin costo extra — no son un nivel aparte.</p>
       <ul>
-        <li>La capa semántica: cuando el glosario ya no alcanza</li>
-        <li>Cómo elegir tu IA — el método, no las marcas</li>
-        <li>¿Tu empresa quiere IA sobre sus datos? Qué arreglar primero</li>
+        <li><b>La capa semántica: cuando el glosario ya no alcanza.</b> Responde: dos áreas discuten porque la misma métrica da dos números — ¿qué sigue?</li>
+        <li><b>Cómo elegir tu IA — el método, no las marcas.</b> Responde: cómo elijo el mío, y cómo cambio sin perder lo armado cuando salga el siguiente.</li>
+        <li><b>¿Tu empresa quiere IA sobre sus datos? Qué arreglar primero.</b> Responde: por dónde empieza, y en qué orden.</li>
       </ul>
     </div>
   </div>
