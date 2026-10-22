@@ -124,6 +124,8 @@
   }
   .zoom b { display: block; font-size: 16.5px; font-family: Georgia, serif; }
   .zoom span { font-size: 14px; color: var(--muted); }
+  .takeaway { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 15.5px; }
+  .takeaway b { color: var(--accent); }
 
   .ba { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 26px 0 0; }
   @media (min-width: 780px) { .ba { grid-template-columns: 1fr 1fr; } }
@@ -239,7 +241,47 @@
 
   footer { padding: 40px 0 60px; font-size: 13px; color: var(--muted); }
   footer p { margin: 6px 0; }
+
+  /* Revelado sobrio al entrar en pantalla. Sin JS, el contenido queda visible. */
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s cubic-bezier(.2, .7, .3, 1), transform .5s cubic-bezier(.2, .7, .3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  html.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+  .btn, .cert img { transition: background-color .15s ease-out, box-shadow .15s ease-out, transform .15s ease-out; }
+  details summary { transition: color .15s ease-out; }
+  details summary:hover, details[open] summary { color: var(--accent-dark); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  @media (hover: hover) {
+    .quote, .block, .bonus, .ba .col, .fit .col { transition: transform .18s ease-out, box-shadow .18s ease-out; }
+    .quote:hover, .block:hover, .bonus:hover, .ba .col:hover, .fit .col:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 0 rgba(28, 24, 21, .07);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .cert:hover img { transform: translateY(-2px); }
+  }
+
+  .faq-grid { display: grid; gap: 6px; }
+  .faq-list > details:first-child { border-top: 1px solid var(--line); }
+  @media (min-width: 900px) {
+    #faq .wrap { max-width: 860px; }
+    .faq-grid { grid-template-columns: 240px 1fr; gap: 44px; align-items: start; }
+    .faq-intro { position: sticky; top: 32px; }
+    .faq-intro h2 { font-size: 26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js [data-reveal] { opacity: 1; transform: none; transition: none; }
+    .btn, .cert img, .quote, .block, .bonus, .ba .col, .fit .col, details summary { transition: none; }
+    .quote:hover, .block:hover, .bonus:hover, .ba .col:hover, .fit .col:hover, .btn:hover, .cert:hover img { transform: none; }
+  }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -414,11 +456,12 @@
       <li data-n="1"><b>El encargo, por escrito</b><span>Qué resultado exiges y cómo se comprueba — antes de delegar.</span></li>
       <li data-n="2"><b>El contexto</b><span>Tu empresa en un archivo: qué mide cada cosa y qué no tocar.</span></li>
       <li data-n="3"><b>Delegas el diagnóstico</b><span>La IA explora, propone hipótesis y genera las queries.</span></li>
-      <li data-n="4"><b>La IA responde — y suena segura</b><span>Suena igual cuando acierta que cuando inventa. La seguridad no es evidencia.</span></li>
+      <li data-n="4"><b>Recibes la respuesta sin creerle</b><span>El tono seguro llega igual cuando acierta que cuando inventa. Por eso el siguiente paso no es opcional.</span></li>
       <li data-n="5"><b>La checklist convierte la revisión en comparación</b><span>Contra tu encargo — no contra tu intuición.</span></li>
-      <li data-n="6"><b>Contrastas con la fuente</b><span>La base de datos dice la verdad: se mide, no se opina.</span></li>
+      <li data-n="6"><b>Contrastas con la fuente</b><span>Contra la base, el plan de ejecución o quien define la métrica. Nunca contra la opinión de la IA.</span></li>
       <li data-n="7"><b>Entregas</b><span>Y la entrega lleva tu nombre.</span></li>
     </ul>
+    <p class="takeaway">Los pasos 1, 2 y 5 usan tres plantillas que vienen incluidas: <b>el encargo, el contexto y la checklist</b>. Los otros cuatro los ves ejecutados en el proyecto.</p>
   </div>
 </section>
 
@@ -527,57 +570,61 @@
 </section>
 
 <section id="faq">
-  <div class="wrap narrow">
-    <p class="kicker">Preguntas</p>
-    <h2>Lo que suelen preguntarme</h2>
-    <details>
-      <summary>¿Sirve para cualquier problema de datos?</summary>
-      <p>Para cualquier problema que resuelvas con datos: una query lenta, una métrica que nadie definió igual, un pipeline que duplica filas, un dashboard que no cuadra. El flujo es el mismo — cambia el contenido de cada paso.</p>
-    </details>
-    <details>
-      <summary>¿Es un curso de RAG, MCP o agentes?</summary>
-      <p>No. Eso se encuentra en YouTube y en otros recursos. Este curso es para usar la IA en tus problemas de datos, todos los días.</p>
-    </details>
-    <details>
-      <summary>¿Esto es spec-driven development?</summary>
-      <p>Sí y no. Lo de aclarar antes de delegar, el software lo llama spec-driven development. Pero en datos eso no alcanza. La IA puede cumplir todo lo que le pediste y el número sigue mal. Aquí el resultado se comprueba contra la realidad, con la fuente y un conteo manual. Lo que pediste también puede estar mal.</p>
-    </details>
-    <details>
-      <summary>No sé nada de IA. ¿Me sirve?</summary>
-      <p>Sí, si trabajas con datos. El curso no asume que sabes cómo funciona un modelo por dentro — y no lo enseña. Lo técnico no te detiene: cada término se explica en palabras simples justo cuando aparece.</p>
-    </details>
-    <details>
-      <summary>¿El proyecto se puede correr en mi máquina?</summary>
-      <p>Sí. Corre en Windows, macOS y Linux con Docker. Y no es un problema de juguete: la base de datos trae millones de registros, del tamaño de los que se ven en el trabajo real.</p>
-    </details>
-    <details>
-      <summary>¿Cuándo abre?</summary>
-      <p>El acceso anticipado define el cierre: cuando haya suficiente interés, abrimos — y quien dejó su correo lo sabe primero: ahí mismo anuncio el precio de estreno, para los 30 primeros compradores. Te aviso con un solo correo.</p>
-    </details>
-    <details>
-      <summary>¿Cuánto cuesta y por qué tan barato?</summary>
-      <p>$15 USD de pago único para los 30 primeros compradores — un precio de regalo para la comunidad de datos, que me ha dado mucho. Después sube a $45 USD, y seguirá subiendo: el precio de estreno es el más bajo que existirá. Sin suscripciones, sin ventas escondidas: pagas una vez y es tuyo de por vida.</p>
-    </details>
-    <details>
-      <summary>¿Por cuánto tiempo tengo acceso?</summary>
-      <p>Para siempre. Es una compra única, con acceso de por vida — y las actualizaciones futuras incluidas: si algo cambia y el curso se actualiza, lo recibes sin pagar de nuevo.</p>
-    </details>
-    <details>
-      <summary>¿Funciona con mi modelo de IA?</summary>
-      <p>El flujo es agnóstico: sirve con el modelo de IA que uses hoy — y con el que exista el próximo año. No te enseño una herramienta, te enseño la estructura que sobrevive cuando cambie.</p>
-    </details>
-    <details>
-      <summary>¿Cuánto tiempo toma?</summary>
-      <p>Puedes hacerlo a tu ritmo, y lo más probable es que lo termines antes de lo que te propones. Las herramientas se usan desde el día siguiente.</p>
-    </details>
-    <details>
-      <summary>¿Y si no me sirve?</summary>
-      <p>Garantía de 30 días: me escribes, te devuelvo el dinero, sin preguntas. El riesgo es mío, no tuyo.</p>
-    </details>
-    <details>
-      <summary>¿Qué hacen con mi correo?</summary>
-      <p>Una cosa: avisarte cuando abra. Sin cadenas de correos, sin venderlo. Te sales con un clic cuando quieras.</p>
-    </details>
+  <div class="wrap narrow faq-grid">
+    <div class="faq-intro">
+      <p class="kicker">Preguntas</p>
+      <h2>Lo que suelen preguntarme</h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>¿Sirve para cualquier problema de datos?</summary>
+        <p>Para cualquier problema que resuelvas con datos: una query lenta, una métrica que nadie definió igual, un pipeline que duplica filas, un dashboard que no cuadra. El flujo es el mismo — cambia el contenido de cada paso.</p>
+      </details>
+      <details>
+        <summary>¿Es un curso de RAG, MCP o agentes?</summary>
+        <p>No. Eso se encuentra en YouTube y en otros recursos. Este curso es para usar la IA en tus problemas de datos, todos los días.</p>
+      </details>
+      <details>
+        <summary>¿Esto es spec-driven development?</summary>
+        <p>Sí y no. Lo de aclarar antes de delegar, el software lo llama spec-driven development. Pero en datos eso no alcanza. La IA puede cumplir todo lo que le pediste y el número sigue mal. Aquí el resultado se comprueba contra la realidad, con la fuente y un conteo manual. Lo que pediste también puede estar mal.</p>
+      </details>
+      <details>
+        <summary>No sé nada de IA. ¿Me sirve?</summary>
+        <p>Sí, si trabajas con datos. El curso no asume que sabes cómo funciona un modelo por dentro — y no lo enseña. Lo técnico no te detiene: cada término se explica en palabras simples justo cuando aparece.</p>
+      </details>
+      <details>
+        <summary>¿El proyecto se puede correr en mi máquina?</summary>
+        <p>Sí. Corre en Windows, macOS y Linux con Docker. Y no es un problema de juguete: la base de datos trae millones de registros, del tamaño de los que se ven en el trabajo real.</p>
+      </details>
+      <details>
+        <summary>¿Cuándo abre?</summary>
+        <p>El acceso anticipado define el cierre: cuando haya suficiente interés, abrimos — y quien dejó su correo lo sabe primero: ahí mismo anuncio el precio de estreno, para los 30 primeros compradores. Te aviso con un solo correo.</p>
+      </details>
+      <details>
+        <summary>¿Cuánto cuesta y por qué tan barato?</summary>
+        <p>$15 USD de pago único para los 30 primeros compradores — un precio de regalo para la comunidad de datos, que me ha dado mucho. Después sube a $45 USD, y seguirá subiendo: el precio de estreno es el más bajo que existirá. Sin suscripciones, sin ventas escondidas: pagas una vez y es tuyo de por vida.</p>
+      </details>
+      <details>
+        <summary>¿Por cuánto tiempo tengo acceso?</summary>
+        <p>Para siempre. Es una compra única, con acceso de por vida — y las actualizaciones futuras incluidas: si algo cambia y el curso se actualiza, lo recibes sin pagar de nuevo.</p>
+      </details>
+      <details>
+        <summary>¿Funciona con mi modelo de IA?</summary>
+        <p>El flujo es agnóstico: sirve con el modelo de IA que uses hoy — y con el que exista el próximo año. No te enseño una herramienta, te enseño la estructura que sobrevive cuando cambie.</p>
+      </details>
+      <details>
+        <summary>¿Cuánto tiempo toma?</summary>
+        <p>Puedes hacerlo a tu ritmo, y lo más probable es que lo termines antes de lo que te propones. Las herramientas se usan desde el día siguiente.</p>
+      </details>
+      <details>
+        <summary>¿Y si no me sirve?</summary>
+        <p>Garantía de 30 días: me escribes, te devuelvo el dinero, sin preguntas. El riesgo es mío, no tuyo.</p>
+      </details>
+      <details>
+        <summary>¿Qué hacen con mi correo?</summary>
+        <p>Una cosa: avisarte cuando abra. Sin cadenas de correos, sin venderlo. Te sales con un clic cuando quieras.</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -586,6 +633,41 @@
     <p>© 2026 Omar Valdez · <a href="https://links.soyomarvaldezg.com">links.soyomarvaldezg.com</a></p>
   </div>
 </footer>
+
+<script>
+(function () {
+  var singles = [
+    '.stats .row', '.stats .note',
+    'section .kicker', 'section h2', 'section .sub', 'section .thesis',
+    '.punch', '.bonus', '.offer', '.capture', '.about'
+  ].join(', ');
+  var groups = '.quotes, .blocks, .ba, .zoom, .tools, .pains, .fit';
+
+  var items = [].slice.call(document.querySelectorAll(singles));
+
+  [].forEach.call(document.querySelectorAll(groups), function (group) {
+    [].forEach.call(group.children, function (child, i) {
+      child.style.setProperty('--reveal-delay', Math.min(i, 6) * 60 + 'ms');
+      items.push(child);
+    });
+  });
+
+  items.forEach(function (el) { el.setAttribute('data-reveal', ''); });
+
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-in');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
